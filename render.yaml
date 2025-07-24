@@ -18,7 +18,7 @@ services:
         value: https://<tu-app>.onrender.com
       - key: DB_CONNECTION
         value: mysql
-      - key: DB_HOST
+      - key: DB_HOST  
         fromDatabase:
           name: curso-management-db
           property: host
