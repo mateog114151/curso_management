@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Espera a que MySQL esté listo (opcional, si tienes delay)
-sleep 5
+# Espera opcional por la base de datos (Railway suele estar lista rápido)
+sleep 3
 
-# Comandos Laravel
+# Ejecuta comandos Artisan en runtime
 php artisan key:generate --force
 php artisan storage:link
 php artisan migrate --force
 
-# Inicia el servidor
+# Levanta el servidor Laravel
 php artisan serve --host=0.0.0.0 --port=8000
