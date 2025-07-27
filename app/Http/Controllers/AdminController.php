@@ -2,28 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
-use App\Models\User;
-use App\Models\Enrollment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\Course;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        // Estadísticas exactas según el documento
         $totalCourses = Course::count();
-        $totalStudents = User::where('role', 'student')->count();
-        
-        // Total de inscripciones por curso
-        $coursesWithEnrollments = Course::withCount('enrollments')
-            ->orderBy('enrollments_count', 'desc')
-            ->get();
+        $totalStudents = DB::table('users')
+                           ->where('role', 'student')
+                           ->count();
+        $coursesWithEnrollments = Course::withCount('enrollments')->get();
+
+        // Preparamos los datos para Chart.js
+        $chartLabels = $coursesWithEnrollments->pluck('name');
+        $chartData   = $coursesWithEnrollments->pluck('enrollments_count');
 
         return view('admin.dashboard', compact(
-            'totalCourses', 
-            'totalStudents', 
-            'coursesWithEnrollments'
+            'totalCourses',
+            'totalStudents',
+            'coursesWithEnrollments',
+            'chartLabels',
+            'chartData'
         ));
     }
 }
