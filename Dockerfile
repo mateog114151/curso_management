@@ -26,4 +26,5 @@ RUN php artisan key:generate --force && \
 EXPOSE 8000
 
 # Comando por defecto
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["./entrypoint.sh"]
+
